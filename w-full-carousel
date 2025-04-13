@@ -4,38 +4,42 @@ npm install swiper
 
 // components/FullWidthCarousel.jsx
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
-import { Autoplay } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules';
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-const FullWidthCarousel = () => {
+const Hero = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const swiperRef = useRef(null); // store the swiper instance
 
   const images = [
-    'https://source.unsplash.com/1600x600/?nature',
-    'https://source.unsplash.com/1600x600/?travel',
+    'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800',
+    'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=800',
     'https://source.unsplash.com/1600x600/?beach',
     'https://source.unsplash.com/1600x600/?mountain',
   ];
 
+  useEffect(() => {
+    if (swiperRef.current && prevRef.current && nextRef.current) {
+      swiperRef.current.params.navigation.prevEl = prevRef.current;
+      swiperRef.current.params.navigation.nextEl = nextRef.current;
+      swiperRef.current.navigation.init();
+      swiperRef.current.navigation.update();
+    }
+  }, []);
+
   return (
     <div className="relative w-full">
       <Swiper
-        modules={[Autoplay]}
+        modules={[Navigation, Autoplay]}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={true}
         slidesPerView={1}
-        onBeforeInit={(swiper) => {
-          swiper.params.navigation = {
-            prevEl: prevRef.current,
-            nextEl: nextRef.current,
-          };
-        }}
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
       >
         {images.map((img, index) => (
           <SwiperSlide key={index}>
@@ -43,7 +47,7 @@ const FullWidthCarousel = () => {
           </SwiperSlide>
         ))}
 
-        {/* Prev & Next Buttons */}
+        {/* Navigation Buttons */}
         <div
           ref={prevRef}
           className="absolute top-1/2 left-3 z-50 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full cursor-pointer -translate-y-1/2"
@@ -61,4 +65,4 @@ const FullWidthCarousel = () => {
   );
 };
 
-export default FullWidthCarousel;
+export default Hero;
