@@ -1,0 +1,92 @@
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import './CustomerTestimonials.css'; // custom css import
+
+const testimonials = [
+  {
+    id: 1,
+    name: 'John Doe',
+    role: 'CEO, Company A',
+    img: 'https://randomuser.me/api/portraits/men/32.jpg',
+    feedback: 'This service is outstanding! Highly recommended to everyone.',
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    role: 'Manager, Company B',
+    img: 'https://randomuser.me/api/portraits/women/44.jpg',
+    feedback: 'Amazing experience, the team was very professional.',
+  },
+  {
+    id: 3,
+    name: 'Michael Brown',
+    role: 'Freelancer',
+    img: 'https://randomuser.me/api/portraits/men/75.jpg',
+    feedback: 'I am very happy with the quality of work delivered.',
+  },
+  {
+    id: 4,
+    name: 'Emily Davis',
+    role: 'Designer',
+    img: 'https://randomuser.me/api/portraits/women/68.jpg',
+    feedback: 'Excellent service! Very responsive and great results.',
+  },
+];
+
+const CustomerTestimonials = () => {
+  return (
+    <div className="w-full md:w-10/12 mx-auto py-10">
+      <h2 className="text-3xl font-bold text-center mb-8">What Our Customers Say</h2>
+
+      <Swiper
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        modules={[Autoplay, Pagination]}
+        loop={true}
+        spaceBetween={30}
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        className="w-full custom-swiper"
+      >
+        {testimonials.map((testimonial) => (
+          <SwiperSlide key={testimonial.id}>
+            <div className="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center max-w-sm mx-auto">
+              <img
+                src={testimonial.img}
+                alt={testimonial.name}
+                className="w-20 h-20 rounded-full object-cover mb-4"
+              />
+              <h3 className="text-xl font-semibold">{testimonial.name}</h3>
+              <p className="text-sm text-gray-500">{testimonial.role}</p>
+              <p className="mt-4 text-gray-700">{testimonial.feedback}</p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  );
+};
+
+export default CustomerTestimonials;
+
+
+/* CustomerTestimonials.css */
+
+.custom-swiper .swiper-pagination-bullet {
+  background: #ccc; /* Default bullet color (light grey) */
+  opacity: 1;
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background: #019267; /* Active bullet color */
+}
+
